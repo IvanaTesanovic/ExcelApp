@@ -1,0 +1,5 @@
+c:\users\i.tesanovic\documents\visual studio 2015\Projects\ExcelTestApp\ExcelTestApp\bin\Debug\ExcelTestApp.exe.config
+c:\users\i.tesanovic\documents\visual studio 2015\Projects\ExcelTestApp\ExcelTestApp\bin\Debug\ExcelTestApp.exe
+c:\users\i.tesanovic\documents\visual studio 2015\Projects\ExcelTestApp\ExcelTestApp\bin\Debug\ExcelTestApp.pdb
+c:\users\i.tesanovic\documents\visual studio 2015\Projects\ExcelTestApp\ExcelTestApp\obj\Debug\ExcelTestApp.exe
+c:\users\i.tesanovic\documents\visual studio 2015\Projects\ExcelTestApp\ExcelTestApp\obj\Debug\ExcelTestApp.pdb
