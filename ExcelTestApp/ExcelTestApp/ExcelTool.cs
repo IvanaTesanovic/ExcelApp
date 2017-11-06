@@ -11,6 +11,9 @@ namespace ExcelTestApp
         private string _excelOriginalPath; //originalni excel fajl koji ce se kopirati svaki put kad se budu export-ovale nove bolesti
         private string _excelDataPath; //fajl u koji ce biti export-ovane bolesti
 
+        private Repository _repo;
+        private int _numberOfDiseases;
+
         //TODO: Disease data to be exported should be sent as a parameter
         //The data is from the translation page (there should be a button for exporting?)
         //Or those two things should be separated?
@@ -20,16 +23,29 @@ namespace ExcelTestApp
             _excelOriginalPath = "C:\\Users\\i.tesanovic\\Documents\\visual studio 2015\\Projects\\ExcelTestApp\\Data\\RetkeBolestiOriginal.xlsx";
             _excelTemplatePath = "C:\\Users\\i.tesanovic\\Documents\\visual studio 2015\\Projects\\ExcelTestApp\\Data\\BazaRetkihBolestiTemplate.xlsx";
             _excelDataPath = "C:\\Users\\i.tesanovic\\Documents\\visual studio 2015\\Projects\\ExcelTestApp\\Data\\RetkeBolesti.xlsx";
+            _repo = new Repository();
+            _numberOfDiseases = 5;
 
             ResetData();
+            InitializeExcelDocument(_numberOfDiseases);
+            ExportTo(_numberOfDiseases);
+            
             //InitializeExcelDocument(5);
         }
 
         //Export to Excel file from Disease object
         //Here we can even have a list of diseases
         //We should export the diseases into an excel file using the given template where each disease will belong to a different sheet
-        public void ExportTo(object disease)
+        public void ExportTo(int numberOfDiseases)
         {
+            var diseases = _repo.GetRangeOfDiseases(_numberOfDiseases);
+
+            InsertDataIntoSheet(1, diseases[0].Name);
+
+            //for (int i = 1; i <= diseases.Count; i++)
+            //{
+            //    InsertDataIntoSheet(i, diseases[i - 1].Name);
+            //}
         }
 
         //Import from Excel file to Disease object
@@ -52,7 +68,7 @@ namespace ExcelTestApp
 
         private void InsertEmptySheet(int sheetNumber)
         {
-            using (var connection = new OleDbConnection(GetConnectionString(_excelDataPath)))
+            using (var connection = new OleDbConnection(GetConnectionString(_excelDataPath, "Yes")))
             {
                 connection.Open();
 
@@ -75,7 +91,7 @@ namespace ExcelTestApp
 
         private void InsertPropertyIntoSheet(int sheetNumber, string propertyName)
         {
-            using (var connection = new OleDbConnection(GetConnectionString(_excelDataPath)))
+            using (var connection = new OleDbConnection(GetConnectionString(_excelDataPath, "Yes")))
             {
                 connection.Open();
                 var query = $"INSERT INTO [Sheet{sheetNumber}$] (Property) VALUES ('{propertyName}')";
@@ -87,17 +103,22 @@ namespace ExcelTestApp
             }
         }
 
-        //ovde cu prolaziti kroz listu bolesti izvucenih iz baze (npr ima ih dvadeset, nije ni bitno)
-        //radicu for obican da bih imala index i onda cu ubacivati u i sheet i-tu bolest
-        //private void InsertDataOnEnglishIntoSheets(int sheetNumber, object disease)
-        //{
-        //    using(var connection = new OleDbConnection(_connectionString))
-        //    {
-        //        connection.Open();
+        private void InsertDataIntoSheet(int sheetNumber, string propertyValue)
+        {
+            using (var connection = new OleDbConnection(GetConnectionString(_excelDataPath, "No")))
+            {
+                connection.Open();
 
-        //        var query = $"INSERT INTO [Sheet{sheetNumber}$] (English) Values(2,4,5)";
-        //    }
-        //}
+                //moram vrednost po vrednost od bolesti da ubacujem, ne moze ovako
+                //"UPDATE ["+sheetName+"$B5:B5] SET F1=17", oledbConn
+                var query = $"UPDATE [Sheet{sheetNumber}$B2:B2] SET F1='{propertyValue}'";
+
+                using (var command = new OleDbCommand(query, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
 
         private List<string> GetPropertyNames()
         {
@@ -114,7 +135,7 @@ namespace ExcelTestApp
         {
             var dataSet = new DataSet();
 
-            using (var connection = new OleDbConnection(GetConnectionString(_excelTemplatePath)))
+            using (var connection = new OleDbConnection(GetConnectionString(_excelTemplatePath, "Yes")))
             {
                 connection.Open();
                 var query = "SELECT Property FROM [Sheet1$]";
@@ -128,7 +149,7 @@ namespace ExcelTestApp
             return dataSet;
         }
 
-        private string GetConnectionString(string filePath) => $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={filePath};Extended Properties='Excel 8.0;HDR=YES;'";
+        private string GetConnectionString(string filePath, string hdr) => $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={filePath};Extended Properties='Excel 8.0;HDR={hdr};'";
 
         private void ResetData()
         {
