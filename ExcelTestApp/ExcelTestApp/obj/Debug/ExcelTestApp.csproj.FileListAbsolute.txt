@@ -5,3 +5,6 @@ c:\users\i.tesanovic\documents\visual studio 2015\Projects\ExcelTestApp\ExcelTes
 c:\users\i.tesanovic\documents\visual studio 2015\Projects\ExcelTestApp\ExcelTestApp\obj\Debug\ExcelTestApp.pdb
 C:\Users\i.tesanovic\Documents\Visual Studio 2015\Projects\ExcelTestApp\ExcelTestApp\bin\Debug\NPoco.dll
 C:\Users\i.tesanovic\Documents\Visual Studio 2015\Projects\ExcelTestApp\ExcelTestApp\obj\Debug\ExcelTestApp.csprojResolveAssemblyReference.cache
+E:\GitHub\ExcelApp\ExcelTestApp\ExcelTestApp\bin\Debug\ExcelTestApp.exe.config
+E:\GitHub\ExcelApp\ExcelTestApp\ExcelTestApp\obj\Debug\ExcelTestApp.exe
+E:\GitHub\ExcelApp\ExcelTestApp\ExcelTestApp\obj\Debug\ExcelTestApp.pdb

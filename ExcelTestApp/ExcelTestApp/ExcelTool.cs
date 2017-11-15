@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.IO;
@@ -14,9 +15,10 @@ namespace ExcelTestApp
         private Repository _repo;
         private int _numberOfDiseases;
 
-        //TODO: Disease data to be exported should be sent as a parameter
-        //The data is from the translation page (there should be a button for exporting?)
-        //Or those two things should be separated?
+        //TODO: _numberOfDiseases should be sent from the GUI.
+
+        //Create a dictionary that will have row number as key (i.e. 2, 3, 4) and property name as value so that the data can be inserted in one pass.
+        //If the data is too big, insert another empty row
 
         public ExcelTool()
         {
@@ -27,10 +29,11 @@ namespace ExcelTestApp
             _numberOfDiseases = 5;
 
             ResetData();
+            Console.WriteLine("Data is reset.");
             InitializeExcelDocument(_numberOfDiseases);
+            Console.WriteLine("Document is initialized.");
             ExportTo(_numberOfDiseases);
-            
-            //InitializeExcelDocument(5);
+            Console.WriteLine("Data is exported.");
         }
 
         //Export to Excel file from Disease object
@@ -40,7 +43,9 @@ namespace ExcelTestApp
         {
             var diseases = _repo.GetRangeOfDiseases(_numberOfDiseases);
 
-            InsertDataIntoSheet(1, diseases[0].Name);
+            InsertDataIntoSheet(1, diseases[0].Name, 2);
+            InsertDataIntoSheet(1, diseases[0].AgeOfOnset, 3);
+            InsertDataIntoSheet(1, diseases[0].Definition, 4);
 
             //for (int i = 1; i <= diseases.Count; i++)
             //{
@@ -103,15 +108,12 @@ namespace ExcelTestApp
             }
         }
 
-        private void InsertDataIntoSheet(int sheetNumber, string propertyValue)
+        private void InsertDataIntoSheet(int sheetNumber, string propertyValue, int rowNumber)
         {
             using (var connection = new OleDbConnection(GetConnectionString(_excelDataPath, "No")))
             {
                 connection.Open();
-
-                //moram vrednost po vrednost od bolesti da ubacujem, ne moze ovako
-                //"UPDATE ["+sheetName+"$B5:B5] SET F1=17", oledbConn
-                var query = $"UPDATE [Sheet{sheetNumber}$B2:B2] SET F1='{propertyValue}'";
+                var query = $"UPDATE [Sheet{sheetNumber}$B{rowNumber}:B{rowNumber}] SET F1='{propertyValue}'";
 
                 using (var command = new OleDbCommand(query, connection))
                 {
