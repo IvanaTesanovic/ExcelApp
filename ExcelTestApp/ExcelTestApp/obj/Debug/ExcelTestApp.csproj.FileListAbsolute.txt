@@ -8,3 +8,6 @@ C:\Users\i.tesanovic\Documents\Visual Studio 2015\Projects\ExcelTestApp\ExcelTes
 E:\GitHub\ExcelApp\ExcelTestApp\ExcelTestApp\bin\Debug\ExcelTestApp.exe.config
 E:\GitHub\ExcelApp\ExcelTestApp\ExcelTestApp\obj\Debug\ExcelTestApp.exe
 E:\GitHub\ExcelApp\ExcelTestApp\ExcelTestApp\obj\Debug\ExcelTestApp.pdb
+E:\GitHub\ExcelApp\ExcelTestApp\ExcelTestApp\bin\Debug\ExcelTestApp.exe
+E:\GitHub\ExcelApp\ExcelTestApp\ExcelTestApp\bin\Debug\ExcelTestApp.pdb
+E:\GitHub\ExcelApp\ExcelTestApp\ExcelTestApp\bin\Debug\NPoco.dll

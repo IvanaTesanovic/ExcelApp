@@ -54,6 +54,7 @@
     <Compile Include="Entities\DiseaseEntity.cs" />
     <Compile Include="Entities\SummaryEntity.cs" />
     <Compile Include="Entities\SynonymEntity.cs" />
+    <Compile Include="ExcelDiseaseEntity.cs" />
     <Compile Include="ExcelTool.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
