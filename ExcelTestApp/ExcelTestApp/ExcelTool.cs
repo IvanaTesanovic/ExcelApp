@@ -9,10 +9,11 @@ namespace ExcelTestApp
 {
     public class ExcelTool
     {
+        private string _excelFolderPath;
+
         private string _excelTemplatePath; //template iz kog vucemo vrednosti za property-e
         private string _excelOriginalPath; //originalni excel fajl koji ce se kopirati svaki put kad se budu export-ovale nove bolesti
         private string _excelDataPath; //fajl u koji ce biti export-ovane bolesti
-        private string _definitionFilePath; //fajl u kome se nalaze opis, sinonimi i sadrzaj, naziv fajla je orpha broj
 
         private Repository _repo;
         private int _numberOfDiseases;
@@ -26,10 +27,10 @@ namespace ExcelTestApp
         {
             InitializeList();
 
-            _excelOriginalPath = "E:\\GitHub\\ExcelApp\\ExcelTestApp\\Data\\RetkeBolestiOriginal.xlsx";
-            _excelTemplatePath = "E:\\GitHub\\ExcelApp\\ExcelTestApp\\Data\\BazaRetkihBolestiTemplate.xlsx";
-            _excelDataPath = "E:\\GitHub\\ExcelApp\\ExcelTestApp\\Data\\RetkeBolesti.xlsx";
-            _definitionFilePath = "E:\\GitHub\\ExcelApp\\ExcelTestApp\\Data\\";
+            _excelFolderPath = "E:\\GitHub\\ExcelApp\\ExcelTestApp\\Data\\";
+            _excelOriginalPath = $"{_excelFolderPath}RetkeBolestiOriginal.xlsx";
+            _excelTemplatePath = $"{_excelFolderPath}BazaRetkihBolestiTemplate.xlsx";
+            _excelDataPath = $"{_excelFolderPath}RetkeBolesti.xlsx";
 
             _repo = new Repository();
             _numberOfDiseases = 5;
@@ -67,6 +68,9 @@ namespace ExcelTestApp
                         InsertDataIntoSheet(i, value, item.Row);
                     else
                         WriteDefinitionToFile(disease.OrphaNumber, disease.Definition);
+                    //ovde treba dodatno proveriti da li ima jos neki property cija je duzina veca od 255, odn u prvi if ubaciti proveru || duzina <= 255
+                    //ako ima, onda u txt fajl treba napisati prvo sta je to pa onda tek vrednost
+                    //tako nekako ce morati ici za sinonime, to jos treba istraziti (majko sveta)
                 }
             }
         }
@@ -244,19 +248,29 @@ namespace ExcelTestApp
         {
             // Create a file to write to.
             //string createText = "Hello and Welcome" + Environment.NewLine;
-            File.WriteAllText($"{_definitionFilePath}{orphaNumber}.txt", definition);
+            File.WriteAllText($"{_excelFolderPath}{orphaNumber}.txt", definition);
         }
 
         private string GetConnectionString(string filePath, string hdr) => $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={filePath};Extended Properties='Excel 8.0;HDR={hdr};'";
 
         private void ResetData()
         {
+            DeleteTxtFiles();
+
             if (File.Exists(_excelDataPath))
             {
                 File.Delete(_excelDataPath);
             }
 
             File.Copy(_excelOriginalPath, _excelDataPath);
+        }
+
+        private void DeleteTxtFiles()
+        {
+            foreach (string file in Directory.GetFiles(_excelFolderPath, "*.txt").Where(item => item.EndsWith(".txt")))
+            {
+                File.Delete(file);
+            }
         }
 
         private class RowPropertyEntity
