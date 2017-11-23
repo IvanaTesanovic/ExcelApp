@@ -41,8 +41,8 @@ namespace ExcelTestApp
             Console.WriteLine("Data is reset.");
             InitializeExcelDocument(_numberOfDiseases);
             Console.WriteLine("Document is initialized.");
-            ExportTo(_numberOfDiseases);
-            Console.WriteLine("Data is exported.");
+            //ExportTo(_numberOfDiseases);
+            //Console.WriteLine("Data is exported.");
         }
 
         //kad dobavim bolesti, mozda odmah da im izracunam i karaktere i sve
@@ -61,17 +61,24 @@ namespace ExcelTestApp
             {
                 var disease = _diseases[i - 1];
 
+                var longPropertyNames = new List<string>();
+                var longPropertyValues = new List<object>();
+
                 foreach (var item in RowPropertyValues)
                 {
                     var value = disease.GetType().GetProperty(item.PropertyName).GetValue(disease).ToString();
-                    if (item.PropertyName != "Definition")
+
+                    if (value.Length <= 255 && item.PropertyName != "Synonyms" && item.PropertyName != "Summaries")
                         InsertDataIntoSheet(i, value, item.Row);
                     else
-                        WriteDefinitionToFile(disease.OrphaNumber, disease.Definition);
-                    //ovde treba dodatno proveriti da li ima jos neki property cija je duzina veca od 255, odn u prvi if ubaciti proveru || duzina <= 255
-                    //ako ima, onda u txt fajl treba napisati prvo sta je to pa onda tek vrednost
-                    //tako nekako ce morati ici za sinonime, to jos treba istraziti (majko sveta)
+                    {
+                        longPropertyNames.Add(item.PropertyName);
+                        //a sta ako je lista? onda moram prolaziti kroz listu i kreirati to, u pm
+                        longPropertyValues.Add(value);
+                    }
                 }
+
+                WritePropertiesToTxtFile(disease.OrphaNumber, longPropertyNames, longPropertyValues);
             }
         }
 
@@ -87,10 +94,10 @@ namespace ExcelTestApp
                 InsertEmptySheet(i);
             }
 
-            for (int i = 1; i < numberOfSheets + 1; i++)
-            {
-                InsertTemplateIntoSheet(i);
-            }
+            //for (int i = 1; i < numberOfSheets + 1; i++)
+            //{
+            //    InsertTemplateIntoSheet(i);
+            //}
         }
 
         private void InsertEmptySheet(int sheetNumber)
@@ -99,7 +106,7 @@ namespace ExcelTestApp
             {
                 connection.Open();
 
-                var query = $"CREATE TABLE [Sheet{sheetNumber}] (Property varchar(255), English varchar(255), Serbian varchar(255))";
+                var query = $"CREATE TABLE [Sheet{sheetNumber}])";
 
                 using (var command = new OleDbCommand(query, connection))
                 {
@@ -143,12 +150,6 @@ namespace ExcelTestApp
                 }
             }
         }
-
-        //kad popunjavam property-e, to mogu da radim sve u istom cugu, da odmah dobavim bolesti
-        //i na osnovu toga znam koliko puta treba da dodam red za sinonime, sadrzaj i za opis, jer toga ima najvise
-        //znaci ako iz sinonima izvucem 3 vrednosti, znaci 3 reda
-        //a pre svakog upisa treba da proverim da li odgovarajuca vrednost ima vise od 255 karaktera
-        //da bih mogla da upisem onda to u vise redova
 
         private List<string> GetPropertyNames()
         {
@@ -220,7 +221,7 @@ namespace ExcelTestApp
         {
             RowPropertyValues.Add(new RowPropertyEntity { Row = 2, PropertyName = "Name" });
             //RowPropertyValues.Add(new RowPropertyEntity { Row = 3, PropertyName = "" }); //skracen naziv bolesti
-            //RowPropertyValues.Add(new RowPropertyEntity { Row = 4, PropertyName = "" }); //sinonimi
+            //RowPropertyValues.Add(new RowPropertyEntity { Row = 4, PropertyName = "Synonyms" }); //sinonimi
             //RowPropertyValues.Add(new RowPropertyEntity { Row = 5, PropertyName = "" }); //kategorija
             //RowPropertyValues.Add(new RowPropertyEntity { Row = 6, PropertyName = "" }); //podkategorija
             RowPropertyValues.Add(new RowPropertyEntity { Row = 7, PropertyName = "Name" }); //naziv na engleskom jeziku
@@ -234,7 +235,7 @@ namespace ExcelTestApp
             RowPropertyValues.Add(new RowPropertyEntity { Row = 15, PropertyName = "MeSH" });
             RowPropertyValues.Add(new RowPropertyEntity { Row = 16, PropertyName = "Gard" });
             RowPropertyValues.Add(new RowPropertyEntity { Row = 17, PropertyName = "MedDra" });
-            //RowPropertyValues.Add(new RowPropertyEntity { Row = 18, PropertyName = "" }); //sadrzaj? to ne znam kako cemo
+            //RowPropertyValues.Add(new RowPropertyEntity { Row = 18, PropertyName = "Summaries" }); //sadrzaj
             RowPropertyValues.Add(new RowPropertyEntity { Row = 19, PropertyName = "Definition" });
             //RowPropertyValues.Add(new RowPropertyEntity { Row = 20, PropertyName = "" }); //dijagnostika
             //RowPropertyValues.Add(new RowPropertyEntity { Row = 21, PropertyName = "" }); //terapije
@@ -244,11 +245,16 @@ namespace ExcelTestApp
             //RowPropertyValues.Add(new RowPropertyEntity { Row = 25, PropertyName = "" }); //dodatni clanci, linkovi, komentari
         }
 
-        private void WriteDefinitionToFile(string orphaNumber, string definition)
+        private void WritePropertiesToTxtFile(string orphaNumber, List<string> propertyNames, List<object> propertyValues)
         {
-            // Create a file to write to.
-            //string createText = "Hello and Welcome" + Environment.NewLine;
-            File.WriteAllText($"{_excelFolderPath}{orphaNumber}.txt", definition);
+            string content = string.Empty;
+
+            for (int i = 0; i < propertyNames.Count; i++)
+            {
+                content += propertyNames[i] + Environment.NewLine + propertyValues[i] + Environment.NewLine;
+            }
+
+            File.WriteAllText($"{_excelFolderPath}{orphaNumber}.txt", content);
         }
 
         private string GetConnectionString(string filePath, string hdr) => $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={filePath};Extended Properties='Excel 8.0;HDR={hdr};'";
