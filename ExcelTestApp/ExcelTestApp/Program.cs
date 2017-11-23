@@ -11,7 +11,8 @@ namespace ExcelTestApp
         static void Main(string[] args)
         {
             ExcelTool tool = new ExcelTool();
-            Console.WriteLine("Inserting into excel file successfully finished. Press any button to close the dialog.");
+            ExcelTool1 caoIvana = new ExcelTool1();
+            caoIvana.ExportData(6);
             Console.ReadLine();
         }
     }

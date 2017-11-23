@@ -13,3 +13,11 @@ E:\GitHub\ExcelApp\ExcelTestApp\ExcelTestApp\bin\Debug\ExcelTestApp.pdb
 E:\GitHub\ExcelApp\ExcelTestApp\ExcelTestApp\bin\Debug\NPoco.dll
 E:\GitHub\ExcelApp\ExcelTestApp\ExcelTestApp\obj\Debug\ExcelTestApp.csprojResolveAssemblyReference.cache
 E:\GitHub\ExcelApp\ExcelTestApp\ExcelTestApp\obj\Debug\ExcelTestApp.csproj.ResolveComReference.cache
+C:\Users\n.percic\Desktop\ExcelApp\ExcelTestApp\ExcelTestApp\bin\Debug\ExcelTestApp.exe.config
+C:\Users\n.percic\Desktop\ExcelApp\ExcelTestApp\ExcelTestApp\obj\Debug\ExcelTestApp.csproj.ResolveComReference.cache
+C:\Users\n.percic\Desktop\ExcelApp\ExcelTestApp\ExcelTestApp\obj\Debug\ExcelTestApp.exe
+C:\Users\n.percic\Desktop\ExcelApp\ExcelTestApp\ExcelTestApp\obj\Debug\ExcelTestApp.pdb
+C:\Users\n.percic\Desktop\ExcelApp\ExcelTestApp\ExcelTestApp\bin\Debug\ExcelTestApp.exe
+C:\Users\n.percic\Desktop\ExcelApp\ExcelTestApp\ExcelTestApp\bin\Debug\ExcelTestApp.pdb
+C:\Users\n.percic\Desktop\ExcelApp\ExcelTestApp\ExcelTestApp\bin\Debug\NPoco.dll
+C:\Users\n.percic\Desktop\ExcelApp\ExcelTestApp\ExcelTestApp\obj\Debug\ExcelTestApp.csprojResolveAssemblyReference.cache

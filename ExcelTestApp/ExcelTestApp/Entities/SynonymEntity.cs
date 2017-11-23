@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NPoco;
+using System;
 
 namespace ExcelTestApp.Entities
 {
+    [TableName("Synonym")]
     public class SynonymEntity
     {
         public Guid Id { get; set; }

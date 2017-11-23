@@ -27,7 +27,7 @@ namespace ExcelTestApp
         {
             InitializeList();
 
-            _excelFolderPath = "E:\\GitHub\\ExcelApp\\ExcelTestApp\\Data\\";
+            _excelFolderPath = "C:\\Users\\n.percic\\Desktop\\ExcelApp\\ExcelTestApp\\Data\\";
             _excelOriginalPath = $"{_excelFolderPath}RetkeBolestiOriginal.xlsx";
             _excelTemplatePath = $"{_excelFolderPath}BazaRetkihBolestiTemplate.xlsx";
             _excelDataPath = $"{_excelFolderPath}RetkeBolesti.xlsx";
