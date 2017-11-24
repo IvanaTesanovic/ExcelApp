@@ -10,7 +10,6 @@ namespace ExcelTestApp
     {
         static void Main(string[] args)
         {
-            ExcelTool tool = new ExcelTool();
             ExcelTool1 caoIvana = new ExcelTool1();
             caoIvana.ExportData(6);
             Console.ReadLine();
