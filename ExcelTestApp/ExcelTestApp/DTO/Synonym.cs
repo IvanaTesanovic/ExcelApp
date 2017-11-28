@@ -10,7 +10,7 @@ namespace ExcelTestApp
     {
         public string Name { get; set; }
 
-        public static List<Synonym> getDummyData()
+        public static List<Synonym> GetDummyData()
         {
             List<Synonym> dummy = new List<Synonym>();
             dummy.Add(new Synonym() { Name = "Sinonim 1 " });

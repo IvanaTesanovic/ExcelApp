@@ -35,5 +35,10 @@ namespace ExcelTestApp
         public List<Synonym> Synonyms { get; set; }
 
         public List<Summary> Summaries { get; set; }
+
+        public override string ToString()
+        {
+            return OrphaNumber;
+        }
     }
 }

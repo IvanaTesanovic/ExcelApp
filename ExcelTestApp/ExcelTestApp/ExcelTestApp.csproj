@@ -50,18 +50,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Disease.cs" />
+    <Compile Include="DTO\Disease.cs" />
     <Compile Include="Entities\DiseaseEntity.cs" />
     <Compile Include="Entities\SummaryEntity.cs" />
     <Compile Include="Entities\SynonymEntity.cs" />
-    <Compile Include="ExcelDiseaseEntity.cs" />
-    <Compile Include="ExcelTool.cs" />
-    <Compile Include="ExcelTool1.cs" />
+    <Compile Include="Excel\ExcelDataManager.cs" />
+    <Compile Include="ExportTool.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository.cs" />
-    <Compile Include="Summary.cs" />
-    <Compile Include="Synonym.cs" />
+    <Compile Include="DAL\Repository.cs" />
+    <Compile Include="DTO\Summary.cs" />
+    <Compile Include="DTO\Synonym.cs" />
+    <Compile Include="Translations\TranslationMapper.cs" />
+    <Compile Include="Translations\TranslationModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

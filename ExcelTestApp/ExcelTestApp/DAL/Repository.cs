@@ -27,6 +27,14 @@ namespace ExcelTestApp
             }
         }
 
+        public List<string> GetSummary()
+        {
+            using (var db = GetConnection())
+            {
+                return db.Query<string>($"SELECT Title FROM Summary group by Title").ToList();
+            }
+        }
+
         public IDatabase GetConnection(bool enableAutoSelect = true)
         {
             var connection = new SqlConnection(_connectionString);
