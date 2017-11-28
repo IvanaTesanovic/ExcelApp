@@ -20,8 +20,6 @@ namespace ExcelTestApp
             List<Disease> diseases = _repository.GetRangeOfDiseases(diseaseCount);
             TranslationMapper translations = new TranslationMapper();
 
-            translations.GetMapper("Serbian").MapTranslation("ShortName", "Skraćeni naziv bolesti");
-
             ExcelDataManager<Disease> dataManager = new ExcelDataManager<Disease>(translations);
 
             foreach (Disease disease in diseases)
