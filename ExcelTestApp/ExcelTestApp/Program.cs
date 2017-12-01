@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections;
 
 namespace ExcelTestApp
 {
@@ -11,7 +8,10 @@ namespace ExcelTestApp
         static void Main(string[] args)
         {
             ExportTool caoIvana = new ExportTool();
-            caoIvana.ExportDiseases(4);
+
+            //for(var i = 0; i < 50; i++)
+                caoIvana.ExportDiseases();
+
             Console.ReadLine();
         }
     }

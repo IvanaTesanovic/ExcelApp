@@ -10,8 +10,8 @@ namespace ExcelTestApp
         public TranslationMapper()
         {
             _translations = new List<TranslationModel>();
-            MapToEnglish();
-            MapToSerbian();
+            MapToEnglish(); // Mapping to english exists only to add English to list of languages to export
+            MapToSerbian(); // Mapping to serbian is the main mapping that is used for excel export
         }
 
         private void MapToSerbian()

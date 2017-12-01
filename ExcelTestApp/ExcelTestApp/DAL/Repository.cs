@@ -19,19 +19,28 @@ namespace ExcelTestApp
             _connectionString = ConfigurationManager.AppSettings["TranslationsRepositoryConnectionString"];
         }
 
+        //    State values:
+        //    DoesNotApply = 0,
+        //    Untranslated = 1,
+        //    Submitted = 2,
+        //    Accepted = 3,
+        //    Denied = 4
+
         public List<Disease> GetRangeOfDiseases(int range)
         {
             using (var db = GetConnection())
             {
-                return db.Query<Disease>($"SELECT TOP {range} * FROM Disease").ToList();
+                // Add join Summary & Synonym tables to this get call
+
+                return db.Query<Disease>($"SELECT TOP {range} * FROM Disease WHERE State = {0}").ToList();
             }
         }
 
-        public List<string> GetSummary()
+        public void UpdateExportedDiseases(params string[] orphaNumbers)
         {
             using (var db = GetConnection())
             {
-                return db.Query<string>($"SELECT Title FROM Summary group by Title").ToList();
+                db.Query<Disease>($"UPDATE Disease SET State = {2} WHERE OrphaNumber IN({orphaNumbers}) AND State != {0}");
             }
         }
 

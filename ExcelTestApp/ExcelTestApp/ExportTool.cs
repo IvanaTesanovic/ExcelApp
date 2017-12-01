@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using Excel = Microsoft.Office.Interop.Excel;
 
 namespace ExcelTestApp
 {
@@ -15,18 +12,19 @@ namespace ExcelTestApp
             _repository = new Repository();
         }
 
-        public void ExportDiseases(int diseaseCount = 1)
+        public void ExportDiseases(int diseaseCount = 20)
         {
             List<Disease> diseases = _repository.GetRangeOfDiseases(diseaseCount);
+            //_repository.UpdateExportedDiseases(orphaNumbers FROM diseases retrieved ABOVE^^^^^);
             TranslationMapper translations = new TranslationMapper();
 
             ExcelDataManager<Disease> dataManager = new ExcelDataManager<Disease>(translations);
 
             foreach (Disease disease in diseases)
             {
-                // Populating dummy data for disease lists
-                disease.Synonyms = Synonym.GetDummyData();
-                disease.Summaries = Summary.GetDummyData();
+                //// Populating dummy data for disease lists
+                //disease.Synonyms = Synonym.GetDummyData();
+                //disease.Summaries = Summary.GetDummyData();
 
                 dataManager.AddNewData(disease);
             }
