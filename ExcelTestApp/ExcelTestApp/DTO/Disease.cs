@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExcelTestApp.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,9 +37,20 @@ namespace ExcelTestApp
 
         public List<Summary> Summaries { get; set; }
 
-        public override string ToString()
+        public Disease(DiseaseEntity disease)
         {
-            return OrphaNumber;
+            Name = disease.Name;
+            Definition = disease.Definition;
+            OrphaNumber = disease.OrphaNumber;
+            Prevalence = disease.Prevalence;
+            Inheritance = disease.Inheritance;
+            AgeOfOnset = disease.AgeOfOnset;
+            Icd10 = disease.Icd10;
+            Omim = disease.Omim;
+            Umls = disease.Umls;
+            MeSH = disease.MeSH;
+            Gard = disease.Gard;
+            MedDra = disease.MedDra;
         }
     }
 }

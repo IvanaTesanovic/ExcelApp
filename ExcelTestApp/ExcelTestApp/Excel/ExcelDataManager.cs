@@ -27,15 +27,12 @@ namespace ExcelTestApp
             _primaryLanguage = primaryLanguage;
         }
 
-        private Excel.Worksheet AddNewSheet(string name = null)
+        private Excel.Worksheet AddNewSheet()
         {
             Excel.Worksheet xlWorkSheet = (Excel.Worksheet)_xlWorkBook.Sheets.Add(After: _xlWorkBook.Sheets[_xlWorkBook.Sheets.Count]);
             xlWorkSheet.Cells.VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
             xlWorkSheet.Cells.HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
             xlWorkSheet.Cells.WrapText = true;
-
-            if (name != null)
-                xlWorkSheet.Name = name;
 
             return xlWorkSheet;
         }
@@ -121,7 +118,7 @@ namespace ExcelTestApp
 
         public void AddNewData(T data)
         {
-            Excel.Worksheet xlWorkSheet = AddNewSheet(data.ToString());
+            Excel.Worksheet xlWorkSheet = AddNewSheet();
             InsertHeaders(xlWorkSheet);
             PopulateFieldData(xlWorkSheet, data);
             //ApplyStyles(xlWorkSheet);

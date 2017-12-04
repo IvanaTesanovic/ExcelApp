@@ -9,9 +9,12 @@ namespace ExcelTestApp
         {
             ExportTool caoIvana = new ExportTool();
 
-            //for(var i = 0; i < 50; i++)
+            for (var i = 0; i < 50; i++)
                 caoIvana.ExportDiseases();
 
+            //var result = caoIvana.GetDiseaseByOprha("141209");
+
+            Console.WriteLine("Finished");
             Console.ReadLine();
         }
     }
