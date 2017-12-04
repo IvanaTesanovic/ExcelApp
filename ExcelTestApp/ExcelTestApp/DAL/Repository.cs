@@ -35,12 +35,14 @@ namespace ExcelTestApp
             }
         }
 
-        public void UpdateExportedDiseases(params string[] diseaseIds)
+        public void UpdateExportedDiseases(List<DiseaseEntity> diseases)
         {
-            string ids = string.Join(",", diseaseIds.Select(id => "'" + id.ToString() + "'").ToArray());
             using (var db = GetConnection())
             {
-                db.Query<DiseaseEntity>($"UPDATE Disease SET State = {1} WHERE Id IN({ids})");
+                foreach(DiseaseEntity disease in diseases)
+                {
+                    db.Update(disease);
+                }
             }
         }
 

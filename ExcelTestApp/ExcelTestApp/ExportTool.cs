@@ -8,10 +8,12 @@ namespace ExcelTestApp
     public class ExportTool
     {
         private Repository _repository;
+        private List<DiseaseEntity> _exportedDiseases;
 
         public ExportTool()
         {
             _repository = new Repository();
+            _exportedDiseases = new List<DiseaseEntity>();
         }
 
         public void ExportDiseases(int diseaseCount = 20)
@@ -27,6 +29,8 @@ namespace ExcelTestApp
             }
 
             dataManager.SaveFile(DateTime.Now.ToString());
+            _repository.UpdateExportedDiseases(_exportedDiseases);
+
         }
 
         public List<DiseaseEntity> GetDiseaseByOprha(string orpha)
@@ -37,8 +41,6 @@ namespace ExcelTestApp
         private List<Disease> GetDiseasesForExport(int diseaseCount)
         {
             List<DiseaseEntity> result = _repository.GetDiseases(diseaseCount);
-            string[] diseaseIds = result.Select(d => d.Id.ToString()).ToArray();
-            _repository.UpdateExportedDiseases(diseaseIds);
             return result.Select(d => PopulateDiseaseData(d)).ToList();
         }
 
@@ -53,6 +55,8 @@ namespace ExcelTestApp
             result.Summaries = _repository.GetSummariesByDiseaseId(disease.Id.ToString())
                                           .Select(s => new Summary(s))
                                           .ToList();
+            disease.State = 1;
+            _exportedDiseases.Add(disease);
             return result;
         }
     }
