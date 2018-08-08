@@ -1,5 +1,7 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -13,12 +15,16 @@ namespace ExcelTestApp
         private TranslationMapper _translations;
         private string _primaryLanguage;
 
+        public ExcelDataManager()
+        {
+        }
+
         public ExcelDataManager(TranslationMapper translations, string primaryLanguage = "Serbian")
         {
             _xlApp = new Excel.Application();
             if (_xlApp == null)
             {
-                Console.WriteLine("Excel is not properly installed!!");
+                Console.WriteLine("Excel is not properly installed!");
                 return;
             }
             _xlWorkBook = _xlApp.Workbooks.Add(Type.Missing);
@@ -59,8 +65,8 @@ namespace ExcelTestApp
                 xlWorkSheet.Cells[2 + i, 1].Font.Bold = true;
                 xlWorkSheet.Cells[2 + i, 1] = props[i];
             }
-            xlWorkSheet.Columns[1].ColumnWidth = 18;
 
+            xlWorkSheet.Columns[1].ColumnWidth = 18;
         }
 
         private void PopulateFieldData(Excel.Worksheet xlWorkSheet, T data)
@@ -76,7 +82,6 @@ namespace ExcelTestApp
                 {
                     if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
                     {
-
                         if (property.Name == "Synonyms")
                         {
                             if (property.Name == entities[i])
@@ -126,13 +131,12 @@ namespace ExcelTestApp
 
         public void SaveFile(string name)
         {
-
             // Removing automatically created first sheet
             _xlWorkBook.Worksheets[1].Delete();
 
             try
             {
-                _xlWorkBook.SaveAs($"C:\\Users\\n.percic\\Desktop\\ExcelApp\\ExcelTestApp\\Data\\OBRB-{name}.xls", Excel.XlFileFormat.xlWorkbookNormal, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                _xlWorkBook.SaveAs($"C:\\Users\\i.tesanovic\\Desktop\\ExportedDiseases\\OBRB-{name}.xls", Excel.XlFileFormat.xlWorkbookNormal, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
                 _xlWorkBook.Close(true, Type.Missing, Type.Missing);
                 _xlApp.Quit();
             }
@@ -142,7 +146,48 @@ namespace ExcelTestApp
                 Marshal.FinalReleaseComObject(_xlApp);
             }
 
-            Console.WriteLine($"Excel file created , you can find the file C:\\Users\\n.percic\\Desktop\\ExcelApp\\ExcelTestApp\\Data\\OBRB-{name}.xls");
+            Console.WriteLine($"Excel file created, you can find the file C:\\Users\\n.percic\\Desktop\\ExcelApp\\ExcelTestApp\\Data\\OBRB-{name}.xls");
+        }
+
+        public List<Dictionary<int, string>> LoadDataFromFile(string filePath)
+        {
+            List<Dictionary<int, string>> data = new List<Dictionary<int, string>>();
+
+            FileInfo file = new FileInfo(filePath);
+
+            using (ExcelPackage package = new ExcelPackage(file))
+            {
+                for (int i = 1; i <= 20; i++)
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[i];
+                    data.Add(LoadDataFromWorksheet(worksheet));
+                }
+            }
+
+            return data;
+        }
+
+        private Dictionary<int, string> LoadDataFromWorksheet(ExcelWorksheet worksheet)
+        {
+            Dictionary<int, string> data = new Dictionary<int, string>();
+
+            int rowCount = worksheet.Dimension.Rows;
+            int colCount = worksheet.Dimension.Columns;
+
+            for (int row = 2; row <= rowCount; row++)
+            {
+                data.Add(row, GetCellValue(worksheet, row, 3));
+            }
+
+            return data;
+        }
+
+        private string GetCellValue(ExcelWorksheet worksheet, int row, int column)
+        {
+            if (worksheet.Cells[row, column].Value == null)
+                return string.Empty;
+
+            return worksheet.Cells[row, column].Value.ToString();
         }
     }
 }

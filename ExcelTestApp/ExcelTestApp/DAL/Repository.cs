@@ -8,6 +8,7 @@ using System.Collections;
 using NPoco;
 using System.Data.SqlClient;
 using ExcelTestApp.Entities;
+using System.Data;
 
 namespace ExcelTestApp
 {
@@ -31,11 +32,11 @@ namespace ExcelTestApp
         {
             using (var db = GetConnection())
             {
-                return db.Query<DiseaseEntity>($"SELECT TOP {count} * FROM Disease WHERE State = {0} ORDER BY newid()").ToList();
+                return db.Query<DiseaseEntity>($"SELECT TOP {count} * FROM Disease WHERE State = 0 ORDER BY newid()").ToList();
             }
         }
 
-        public void UpdateExportedDiseases(List<DiseaseEntity> diseases)
+        public void Update(List<DiseaseEntity> diseases)
         {
             using (var db = GetConnection())
             {
@@ -50,7 +51,15 @@ namespace ExcelTestApp
         {
             using (var db = GetConnection())
             {
-                return db.Query<DiseaseEntity>($"SELECT * FROM Disease WHERE OrphaNumber = {orpha}").ToList();
+                return db.Fetch<DiseaseEntity>($"WHERE OrphaNumber = {orpha}").ToList();
+            }
+        }
+
+        public DiseaseEntity GetOriginalDiseaseByOrpha(string orpha)
+        {
+            using (var db = GetConnection())
+            {
+                return db.Fetch<DiseaseEntity>($"WHERE OrphaNumber = {orpha} AND IsTranslationOf is NULL").FirstOrDefault();
             }
         }
 
@@ -67,6 +76,20 @@ namespace ExcelTestApp
             using (var db = GetConnection())
             {
                 return db.Fetch<SummaryEntity>($"where DiseaseId = '{diseaseId}'");
+            }
+        }
+
+        public void InsertDisease(DiseaseEntity disease, IEnumerable<SynonymEntity> synonyms, IEnumerable<SummaryEntity> summaries)
+        {
+            using (var db = GetConnection())
+            {
+                db.BeginTransaction(IsolationLevel.ReadCommitted);
+
+                db.Insert(disease);
+                db.InsertBatch(synonyms);
+                db.InsertBatch(summaries);
+
+                db.CompleteTransaction();
             }
         }
 

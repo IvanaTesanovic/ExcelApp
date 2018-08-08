@@ -33,9 +33,11 @@ namespace ExcelTestApp
 
         public string MedDra { get; set; }
 
-        public List<Synonym> Synonyms { get; set; }
+        public IEnumerable<Synonym> Synonyms { get; set; }
 
-        public List<Summary> Summaries { get; set; }
+        public IEnumerable<Summary> Summaries { get; set; }
+
+        public Disease() {}
 
         public Disease(DiseaseEntity disease)
         {

@@ -39,7 +39,7 @@ namespace ExcelTestApp
             serbian.MapTranslation("Prognosis", "Prognoza");
             serbian.MapTranslation("Differential diagnosis", "Diferencijalna dijagnoza");
             serbian.MapTranslation("Management and treatment", "Tretman");
-            serbian.MapTranslation("Diagnostic methods", "Dijagnostičke Metode");
+            serbian.MapTranslation("Diagnostic methods", "Dijagnostičke metode");
             serbian.MapTranslation("Antenatal diagnosis", "Antenatalna dijagnoza");
             serbian.MapTranslation("Epidemiology", "Epidemiologija");
             serbian.MapTranslation("Genetic counseling", "Genetsko savetovanje");

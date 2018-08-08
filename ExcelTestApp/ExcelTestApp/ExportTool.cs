@@ -28,8 +28,8 @@ namespace ExcelTestApp
                 dataManager.AddNewData(disease);
             }
 
-            dataManager.SaveFile(DateTime.Now.ToString());
-            _repository.UpdateExportedDiseases(_exportedDiseases);
+            dataManager.SaveFile(DateTime.Now.ToString("yyyyMMddHHmmss"));
+            //_repository.Update(_exportedDiseases);
 
         }
 
@@ -41,6 +41,7 @@ namespace ExcelTestApp
         private List<Disease> GetDiseasesForExport(int diseaseCount)
         {
             List<DiseaseEntity> result = _repository.GetDiseases(diseaseCount);
+
             return result.Select(d => PopulateDiseaseData(d)).ToList();
         }
 
@@ -57,6 +58,7 @@ namespace ExcelTestApp
                                           .ToList();
             disease.State = 1;
             _exportedDiseases.Add(disease);
+
             return result;
         }
     }

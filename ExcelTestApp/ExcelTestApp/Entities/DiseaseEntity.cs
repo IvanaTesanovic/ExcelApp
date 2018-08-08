@@ -1,13 +1,10 @@
 ﻿using NPoco;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExcelTestApp.Entities
 {
     [TableName("Disease")]
+    [PrimaryKey("Id", AutoIncrement = false)]
     public class DiseaseEntity
     {
         public Guid Id { get; set; }

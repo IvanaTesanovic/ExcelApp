@@ -7,6 +7,11 @@ namespace ExcelTestApp
     {
         public string Name { get; set; }
 
+        public Synonym(string name)
+        {
+            Name = name;
+        }
+
         public Synonym(SynonymEntity synonym)
         {
             Name = synonym.Name;
