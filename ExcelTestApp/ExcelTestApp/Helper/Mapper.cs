@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ExcelTestApp.Helper
 {
@@ -12,18 +13,18 @@ namespace ExcelTestApp.Helper
             return new DiseaseEntity
             {
                 Id = Guid.NewGuid(),
-                AgeOfOnset = disease.AgeOfOnset,
-                Definition = disease.Definition,
-                Gard = disease.Gard,
-                Icd10 = disease.Icd10,
-                Inheritance = disease.Inheritance,
-                MedDra = disease.MedDra,
-                Name = disease.Name,
-                Omim = disease.Omim,
-                OrphaNumber = disease.OrphaNumber,
-                Prevalence = disease.Prevalence,
-                Umls = disease.Umls,
-                MeSH = mesh ?? disease.MeSH,
+                AgeOfOnset = GetTrimmedValue(disease.AgeOfOnset),
+                Definition = GetTrimmedValue(disease.Definition),
+                Gard = GetTrimmedValue(disease.Gard),
+                Icd10 = GetTrimmedValue(disease.Icd10),
+                Inheritance = GetTrimmedValue(disease.Inheritance),
+                MedDra = GetTrimmedValue(disease.MedDra),
+                Name = GetTrimmedValue(disease.Name),
+                Omim = GetTrimmedValue(disease.Omim),
+                OrphaNumber = GetTrimmedValue(disease.OrphaNumber),
+                Prevalence = GetTrimmedValue(disease.Prevalence),
+                Umls = GetTrimmedValue(disease.Umls),
+                MeSH = GetTrimmedValue(mesh) ?? GetTrimmedValue(disease.MeSH),
                 IsTranslationOf = parentDisease,
                 State = state
             };
@@ -35,7 +36,7 @@ namespace ExcelTestApp.Helper
             {
                 DiseaseId = diseaseId,
                 Id = Guid.NewGuid(),
-                Name = synonym.Name
+                Name = GetTrimmedValue(synonym.Name)
             };
         }
 
@@ -45,8 +46,8 @@ namespace ExcelTestApp.Helper
             {
                 Id = Guid.NewGuid(),
                 DiseaseId = diseaseId,
-                Text = summary.Text,
-                Title = summary.Title
+                Text = GetTrimmedValue(summary.Text),
+                Title = GetTrimmedValue(summary.Title)
             };
         }
 
@@ -120,6 +121,11 @@ namespace ExcelTestApp.Helper
             return value.Split(
                     new[] { "\r\n", "\r", "\n" },
                     StringSplitOptions.None);
+        }
+
+        private string GetTrimmedValue(string value)
+        {
+            return Regex.Replace(value.TrimStart().TrimEnd(), @"\s+", " ");
         }
     }
 }

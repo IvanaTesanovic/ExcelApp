@@ -16,7 +16,7 @@ namespace ExcelTestApp
             _exportedDiseases = new List<DiseaseEntity>();
         }
 
-        public void ExportDiseases(int diseaseCount = 20)
+        public void ExportDiseases(int diseaseCount = 30)
         {
             List<Disease> diseases = GetDiseasesForExport(diseaseCount);
 
@@ -29,7 +29,7 @@ namespace ExcelTestApp
             }
 
             dataManager.SaveFile(DateTime.Now.ToString("yyyyMMddHHmmss"));
-            //_repository.Update(_exportedDiseases);
+            _repository.Update(_exportedDiseases);
 
         }
 
