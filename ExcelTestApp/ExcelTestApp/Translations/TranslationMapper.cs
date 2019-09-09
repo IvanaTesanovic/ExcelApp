@@ -31,6 +31,7 @@ namespace ExcelTestApp
             serbian.MapTranslation("Icd10", "ICD-10");
             serbian.MapTranslation("Omim", "OMIM");
             serbian.MapTranslation("Umls", "UMLS");
+            serbian.MapTranslation("MeSH", "MESH");
             serbian.MapTranslation("Gard", "GARD");
             serbian.MapTranslation("MedDra", "MedDRA");
             //serbian.MapTranslation("Summaries", "Sadržaj"); // Is it needed?
@@ -62,6 +63,7 @@ namespace ExcelTestApp
             english.MapTranslation("Icd10", "ICD-10");
             english.MapTranslation("Omim", "OMIM");
             english.MapTranslation("Umls", "UMLS");
+            english.MapTranslation("MeSH", "MESH");
             english.MapTranslation("Gard", "GARD");
             english.MapTranslation("MedDra", "MedDRA");
             _translations.Add(english);

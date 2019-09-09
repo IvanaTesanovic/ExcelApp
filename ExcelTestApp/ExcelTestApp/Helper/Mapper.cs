@@ -69,11 +69,11 @@ namespace ExcelTestApp.Helper
             {
                 AgeOfOnset = data[12],
                 Definition = data[4],
-                Gard = data[16],
+                Gard = data[17],
                 Icd10 = data[13],
                 Inheritance = data[11],
-                MedDra = data[17],
-                MeSH = "?", //this doesn't exist in the sheet.
+                MedDra = data[18],
+                MeSH = data[16], //this doesn't exist in the sheet.
                 Name = data[2],
                 Omim = data[14],
                 OrphaNumber = data[9],
@@ -90,17 +90,17 @@ namespace ExcelTestApp.Helper
         {
             var summaries = new List<Summary>();
 
-            summaries.Add(new Summary { Title = "Tekstualni opis", Text = data[18] });
-            summaries.Add(new Summary { Title = "Etiologija", Text = data[19] });
-            summaries.Add(new Summary { Title = "Prognoza", Text = data[20] });
-            summaries.Add(new Summary { Title = "Diferencijalna dijagnoza", Text = data[21] });
-            summaries.Add(new Summary { Title = "Tretman", Text = data[22] });
-            summaries.Add(new Summary { Title = "Dijagnostičke metode", Text = data[23] });
-            summaries.Add(new Summary { Title = "Antenatalna dijagnoza", Text = data[24] });
-            summaries.Add(new Summary { Title = "Epidemiologija", Text = data[25] });
-            summaries.Add(new Summary { Title = "Genetsko savetovanje", Text = data[26] });
-            summaries.Add(new Summary { Title = "Terapija", Text = data[27] });
-            summaries.Add(new Summary { Title = "Klinička istraživanja", Text = data[28] });
+            summaries.Add(new Summary { Title = "Tekstualni opis", Text = data[19] });
+            summaries.Add(new Summary { Title = "Etiologija", Text = data[20] });
+            summaries.Add(new Summary { Title = "Prognoza", Text = data[21] });
+            summaries.Add(new Summary { Title = "Diferencijalna dijagnoza", Text = data[22] });
+            summaries.Add(new Summary { Title = "Tretman", Text = data[23] });
+            summaries.Add(new Summary { Title = "Dijagnostičke metode", Text = data[24] });
+            summaries.Add(new Summary { Title = "Antenatalna dijagnoza", Text = data[25] });
+            summaries.Add(new Summary { Title = "Epidemiologija", Text = data[26] });
+            summaries.Add(new Summary { Title = "Genetsko savetovanje", Text = data[27] });
+            summaries.Add(new Summary { Title = "Terapija", Text = data[28] });
+            summaries.Add(new Summary { Title = "Klinička istraživanja", Text = data[29] });
 
             return summaries.Where(s => !string.IsNullOrEmpty(s.Text));
         }

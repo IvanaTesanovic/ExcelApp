@@ -16,7 +16,7 @@ namespace ExcelTestApp
             _exportedDiseases = new List<DiseaseEntity>();
         }
 
-        public void ExportDiseases(int diseaseCount = 30)
+        public void ExportDiseases(int diseaseCount = 1)
         {
             List<Disease> diseases = GetDiseasesForExport(diseaseCount);
 

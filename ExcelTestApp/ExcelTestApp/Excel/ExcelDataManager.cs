@@ -80,7 +80,7 @@ namespace ExcelTestApp
                 string cellInfo = null;
                 foreach (var property in dataProperties)
                 {
-                    if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
+                    if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
                     {
                         if (property.Name == "Synonyms")
                         {
@@ -146,7 +146,7 @@ namespace ExcelTestApp
                 Marshal.FinalReleaseComObject(_xlApp);
             }
 
-            Console.WriteLine($"Excel file created, you can find the file C:\\Users\\n.percic\\Desktop\\ExcelApp\\ExcelTestApp\\Data\\OBRB-{name}.xls");
+            Console.WriteLine($"Excel file created, you can find the file C:\\Users\\i.tesanovic\\Desktop\\ExcelApp\\ExcelTestApp\\Data\\OBRB-{name}.xls");
         }
 
         public List<Dictionary<int, string>> LoadDataFromFile(string filePath)
